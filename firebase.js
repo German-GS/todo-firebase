@@ -7,7 +7,8 @@
            onSnapshot,
            deleteDoc,
            doc,
-           getDoc
+           getDoc,
+           updateDoc
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js"
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -40,5 +41,7 @@ export const onGetTasks = (callback)=> onSnapshot(collection(db,'tasks'), callba
 export const deleteTask = id => deleteDoc(doc(db, 'tasks',id))
 
 export const get_Task = id => getDoc(doc(db, 'tasks', id))
+
+export const updataTask = (id, newFields) => updateDoc(doc(db, 'taks', id), newFields)
 
 

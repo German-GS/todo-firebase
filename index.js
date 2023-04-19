@@ -1,10 +1,10 @@
-import {saveTask, getTask, onGetTasks, deleteTask, get_Task } from './firebase.js'
+import {saveTask, getTask, onGetTasks, deleteTask, get_Task, updataTask } from './firebase.js'
 
 const taskform=document.getElementById("task-form")
 const taskContainer = document.getElementById('task-container')
 
 let editStatus = false
-
+let id = ''
 
 window.addEventListener('DOMContentLoaded', async ()=>{
         onGetTasks((querySnapshot)=>{
@@ -44,6 +44,10 @@ window.addEventListener('DOMContentLoaded', async ()=>{
                 taskform['task-description'].value =task.description
 
                 editStatus = true
+                id = doc.id
+
+                taskform['btn-task-save'].innerText = 'Update'
+
             })
 
         })
@@ -59,10 +63,18 @@ taskform .addEventListener('submit', (e)=>{
     e.preventDefault()
     const title = taskform['task-title']
     const description = taskform['task-description']
-    if(editStatus){
+
+    if(!editStatus){
+        saveTask(title.value, description.value)
         console.log('updating')
     }else{
-        saveTask(title.value, description.value)
+        console.log(id)
+        updataTask(id, {
+            title: title.value, 
+            description: description.value
+        })
+        editStatus = false
+        
     }
     
 
