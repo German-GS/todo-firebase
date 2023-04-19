@@ -1,7 +1,9 @@
-import {saveTask, getTask, onGetTasks, deleteTask } from './firebase.js'
+import {saveTask, getTask, onGetTasks, deleteTask, get_Task } from './firebase.js'
 
 const taskform=document.getElementById("task-form")
 const taskContainer = document.getElementById('task-container')
+
+let editStatus = false
 
 
 window.addEventListener('DOMContentLoaded', async ()=>{
@@ -15,12 +17,14 @@ window.addEventListener('DOMContentLoaded', async ()=>{
                     <h3> ${task.title}</h3>
                     <p>${task.description}</p>
                     <button class="btn-delete" data-id="${doc.id}" >Delete</button>
+                    <button class="btn-edit" data-id="${doc.id}" >Edit</button>
                 </div>
             
             `
         });
         
         taskContainer.innerHTML=html
+        //=================Se encarga de capturar la informacion del boton de eliminar=================
         const btnDelete = taskContainer.querySelectorAll('.btn-delete')
         btnDelete.forEach(btn=> {
             btn.addEventListener('click', ({target:{dataset}})=>{
@@ -28,6 +32,20 @@ window.addEventListener('DOMContentLoaded', async ()=>{
                 deleteTask(dataset.id)
                 console.log("elmininando ")
             })
+        })
+        //============== Se ecarga de capturar la informacion del boton de editar======================
+        const btnEdit = taskContainer.querySelectorAll('.btn-edit')
+        btnEdit.forEach(btn=>{
+            btn.addEventListener('click',async(e)  =>{
+                const doc = await get_Task(e.target.dataset.id)
+                const task= doc.data()
+
+                taskform['task-title'].value = task.title
+                taskform['task-description'].value =task.description
+
+                editStatus = true
+            })
+
         })
 
 
@@ -41,8 +59,12 @@ taskform .addEventListener('submit', (e)=>{
     e.preventDefault()
     const title = taskform['task-title']
     const description = taskform['task-description']
-
-    saveTask(title.value, description.value)
+    if(editStatus){
+        console.log('updating')
+    }else{
+        saveTask(title.value, description.value)
+    }
+    
 
     taskform.reset()
 
