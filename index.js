@@ -15,22 +15,24 @@ let id = "";
 
 window.addEventListener("DOMContentLoaded", async () => {
   onGetTasks((querySnapshot) => {
-    let html = "";
+    taskContainer.innerHTML = ""
 
     querySnapshot.forEach((doc) => {
       const task = doc.data();
-      html += `
-                <div>
-                    <h3> ${task.title}</h3>
+      taskContainer.innerHTML += `
+                <div class="card card-body mt-2 border-primary">
+                    <h3 class="h5"> ${task.title}</h3>
                     <p>${task.description}</p>
-                    <button class="btn-delete" data-id="${doc.id}" >Delete</button>
-                    <button class="btn-edit" data-id="${doc.id}" >Edit</button>
+                    <div>
+                        <button class="btn btn-primary btn-delete" data-id="${doc.id}" >Delete</button>
+                        <button class="btn btn-secondary btn-edit" data-id="${doc.id}" >Edit</button>
+                    </div>
                 </div>
             
             `;
     });
 
-    taskContainer.innerHTML = html;
+
     //=================Se encarga de capturar la informacion del boton de eliminar=================
     const btnDelete = taskContainer.querySelectorAll(".btn-delete");
     btnDelete.forEach((btn) => {
@@ -71,7 +73,7 @@ taskform.addEventListener("submit", (e) => {
     console.log("updating");
   } else {
     console.log(id);
-    updateTask("3c6H2tFhXsZ3J5qATpjI", {
+    updateTask(id, {
       title: title.value,
       description: description.value,
     });
