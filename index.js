@@ -32,7 +32,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             `;
     });
 
-
     //=================Se encarga de capturar la informacion del boton de eliminar=================
     const btnDelete = taskContainer.querySelectorAll(".btn-delete");
     btnDelete.forEach((btn) => {
