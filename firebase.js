@@ -42,6 +42,6 @@ export const deleteTask = id => deleteDoc(doc(db, 'tasks',id))
 
 export const get_Task = id => getDoc(doc(db, 'tasks', id))
 
-export const updataTask = (id, newFields) => updateDoc(doc(db, 'taks', id), newFields)
+export const updateTask = (id, newFields) => updateDoc(doc(db, 'tasks', id), newFields)
 
 

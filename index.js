@@ -1,4 +1,4 @@
-import {saveTask, getTask, onGetTasks, deleteTask, get_Task, updataTask } from './firebase.js'
+import {saveTask, getTask, onGetTasks, deleteTask, get_Task, updateTask } from './firebase.js'
 
 const taskform=document.getElementById("task-form")
 const taskContainer = document.getElementById('task-container')
@@ -64,12 +64,12 @@ taskform .addEventListener('submit', (e)=>{
     const title = taskform['task-title']
     const description = taskform['task-description']
 
-    if(!editStatus){
+    if(editStatus===false){
         saveTask(title.value, description.value)
         console.log('updating')
     }else{
         console.log(id)
-        updataTask(id, {
+        updateTask('3c6H2tFhXsZ3J5qATpjI', {
             title: title.value, 
             description: description.value
         })
